@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exploration of Exoplanets | Class 12 IP Project</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">Exoplanet<span>Explorer</span></div>
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#intro">Introduction</a></li>
+            <li><a href="#methodology">Methodology</a></li>
+            <li><a href="#dashboard">Live Analysis</a></li>
+            <li><a href="#conclusion">Conclusion</a></li>
+        </ul>
+    </nav>
+
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>Exploration of Exoplanets</h1>
+            <h2>Using Kepler Light Curve Data</h2>
+            <p class="subtitle">A CBSE Grade XII Informatics Practices Project (Code: 065)</p>
+            
+            <div class="team-card">
+                <h3>Project Team</h3>
+                <p><strong>Dhruvajyoti Mallik</strong> (XII-B)</p>
+                <p><strong>Mopuri Yajur Reddy</strong> (XII-A)</p>
+                <p class="school-name">Delhi Public School Bangalore North</p>
+            </div>
+            
+            <a href="#dashboard" class="cta-button">Launch Interactive Analysis Demo</a>
+        </div>
+    </section>
+
+    <section id="intro" class="section-container">
+        <div class="section-header">
+            <h2>Introduction & Objective</h2>
+            <div class="underline"></div>
+        </div>
+        <div class="content-grid">
+            <div class="text-block">
+                <h3>The Mission</h3>
+                <p>The Kepler Labelled Time Series Dataset originates from the Kepler Space Telescope mission, which continuously monitored thousands of distant stars. It recorded precise changes in their brightness (flux) over long durations to detect transiting exoplanets.</p>
+            </div>
+            <div class="text-block">
+                <h3>Project Objective</h3>
+                <p>The main objective is to demonstrate how data-science techniques can be effectively applied to real astronomical measurements using Python-based analytical tools (Pandas, NumPy, Matplotlib). We aim to detect recurring dips in brightness that indicate a planet passing in front of its host star.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="methodology" class="section-container">
+        <div class="section-header">
+            <h2>System Data Flow</h2>
+            <div class="underline"></div>
+        </div>
+        
+        <div class="flow-diagram">
+            <div class="flow-row">
+                <div class="node start-node">Start</div>
+                <div class="arrow-right">→</div>
+                <div class="node process-node">Kepler Dataset<br>(CSV)</div>
+                <div class="arrow-right">→</div>
+                <div class="node process-node">Load Data<br>(Pandas)</div>
+                <div class="arrow-right">→</div>
+                <div class="node process-node">Preprocessing<br>(Cleaning)</div>
+            </div>
+            
+            <div class="flow-row centered"><div class="arrow-down">↓</div></div>
+
+            <div class="flow-row">
+                <div class="node process-node wide">Data Visualization (Matplotlib)</div>
+            </div>
+
+            <div class="flow-row centered"><div class="arrow-down">↓</div></div>
+
+            <div class="flow-row decision-row">
+                <div class="node decision-node">User Selects<br>Analysis Option</div>
+                <div class="branch-connectors">
+                    <div class="connector-line"></div><div class="connector-line"></div><div class="connector-line"></div><div class="connector-line"></div>
+                </div>
+                <div class="options-container">
+                    <div class="node option-node">Plot All Stars<br>(Grid View)</div>
+                    <div class="node option-node">Plot Single<br>(Time Series)</div>
+                    <div class="node option-node">Statistical<br>Summary</div>
+                    <div class="node option-node">Heatmap<br>Analysis</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="dashboard" class="section-container dashboard-section">
+        <div class="section-header">
+            <h2>Interactive Analysis Demo</h2>
+            <p class="dashboard-subtitle">Data Source: <code>exoTest1.csv</code> (Stars 0, 1, 2, 5, 6, 7)</p>
+            <div class="underline"></div>
+        </div>
+
+        <div class="dashboard-ui">
+            <div class="controls-panel">
+                <h3>Control Panel</h3>
+                <div class="control-group">
+                    <label for="starSelector">Target Star System:</label>
+                    <select id="starSelector">
+                        <option value="0">Star 0 (Label 2: Exoplanet)</option>
+                        <option value="1">Star 1 (Label 2: Exoplanet)</option>
+                        <option value="2">Star 2 (Label 2: Exoplanet)</option>
+                        <option value="5">Star 5 (Label 1: Non-Planet)</option>
+                        <option value="6">Star 6 (Label 1: Non-Planet)</option>
+                        <option value="7">Star 7 (Label 1: Non-Planet)</option>
+                    </select>
+                </div>
+
+                <div class="button-group">
+                    <button id="btnPlotGrid" class="action-btn success-btn">Plot All Stars (Grid)</button>
+                    <button id="btnPlotSingle" class="action-btn info-btn active">Plot Single Star</button>
+                    <button id="btnStats" class="action-btn">Show Statistics</button>
+                    <button id="btnHeatmap" class="action-btn warning-btn">Display Heatmap</button>
+                </div>
+                
+                <div id="statsBox" class="stats-box hidden">
+                    <h4>Statistical Summary (NumPy)</h4>
+                    <div class="stat-row"><span>Mean Flux:</span> <span id="statMean" class="stat-val">--</span></div>
+                    <div class="stat-row"><span>Min Flux:</span> <span id="statMin" class="stat-val">--</span></div>
+                    <div class="stat-row"><span>Max Flux:</span> <span id="statMax" class="stat-val">--</span></div>
+                    <div class="stat-row"><span>Std Dev:</span> <span id="statStd" class="stat-val">--</span></div>
+                </div>
+            </div>
+
+            <div class="viz-panel" id="vizPanel">
+                <canvas id="mainChart"></canvas>
+                
+                <div id="gridContainer" class="grid-view hidden">
+                    <div class="grid-wrapper"><canvas id="gridChart0"></canvas></div>
+                    <div class="grid-wrapper"><canvas id="gridChart1"></canvas></div>
+                    <div class="grid-wrapper"><canvas id="gridChart2"></canvas></div>
+                    <div class="grid-wrapper"><canvas id="gridChart5"></canvas></div>
+                    <div class="grid-wrapper"><canvas id="gridChart6"></canvas></div>
+                    <div class="grid-wrapper"><canvas id="gridChart7"></canvas></div>
+                </div>
+
+                <div id="heatmapContainer" class="hidden">
+                    <h4 class="heatmap-title">Flux Intensity Heatmap (Seaborn Simulation)</h4>
+                    <div id="heatmapGrid"></div>
+                    <div class="heatmap-legend">
+                        <span>Low Flux</span>
+                        <div class="gradient-bar"></div>
+                        <span>High Flux</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="conclusion" class="section-container">
+        <div class="section-header">
+            <h2>Conclusion & Future Scope</h2>
+            <div class="underline"></div>
+        </div>
+        <div class="content-grid">
+            <div class="text-block">
+                <h3>Conclusion</h3>
+                <p>The Kepler mission's long-term dataset has played a central role in transforming how astronomers detect and classify exoplanets. By loading, exploring, and visualizing Kepler-derived CSV data, this work demonstrates the fundamental workflow behind identifying potential planetary signals.</p>
+            </div>
+            <div class="text-block">
+                <h3>Future Scope</h3>
+                <p>Future extensions could involve incorporating neural-network architectures, implementing real-time detection pipelines, or integrating more refined noise-correction methods. Expanding this prototype into an automated framework would enhance the speed of identifying planetary signatures.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="acknowledgement" class="section-container alt-bg">
+        <div class="section-header">
+            <h2>Acknowledgements</h2>
+            <div class="underline"></div>
+        </div>
+        <div class="ack-content">
+            <p>We would like to express our sincere gratitude towards our principal, <strong>Mrs. Manju Balasubramanyam</strong>, for providing us with the opportunity to work on this project.</p>
+            <p>We would also like to express our gratitude to our Informatics Practices teacher, <strong>Mrs. Srividya Sriram</strong>, for her unfailing support, timely availability, and readiness to clarify doubts at every stage of the project.</p>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>© 2026 Exploration of Exoplanets | Grade XII IP Project</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
